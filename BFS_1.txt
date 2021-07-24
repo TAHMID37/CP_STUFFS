@@ -1,0 +1,56 @@
+vector<ll>v[110];
+bool vis[110];
+ll path[110]={0};
+ll bfs(ll suru,ll sesh)
+{
+    memset(vis,false,sizeof(vis));
+    queue<ll>q;
+    q.push(suru);
+    vis[suru]=true;
+    ll level[110]={0};
+
+    while(!q.empty())
+    {
+        ll val=q.front();
+
+        for(auto next:v[val])
+        {
+            if(vis[next])
+                continue;
+            vis[next]=true;
+            q.push(next);
+            level[next]=level[val]+1;
+            path[next]=val;
+        }
+        q.pop();
+    }
+
+    if(level[sesh]==0)
+        return -1;
+
+    return level[sesh];
+
+}
+
+vector<ll> rasta(ll suru,ll sesh)
+{
+    ll x=bfs(suru,sesh);
+
+    vector<ll>dis;
+
+    if(x==-1) //x==-1 No path exits between  (suru to sesh)
+      return dis;
+
+    x=sesh;
+
+    while(x!=0)
+    {
+       dis.pb(x);
+       x=path[x];
+    }
+
+    reverse(dis.begin(),dis.end());
+
+    return dis;
+
+}

@@ -1,0 +1,146 @@
+bool prime[15000000];
+vector<ll>prime_list;
+void seive_prime(ll n)
+{
+    ll i,j;
+    for(i=0; i<=n; i++)
+        prime[i]=true;
+    for(i=2; i*i<=n; i++)
+    {
+        if(prime[i]==true)
+        {
+            for(j=i*i; j<=n; j+=i)
+                prime[j]=false;
+        }
+    }
+    prime[1]=0;
+    prime[0]=0;
+
+
+
+}
+
+void gen_prime(ll n)
+{
+    seive_prime(n);
+    for(ll i=0; i<=n; i++)
+        if(prime[i])
+            prime_list.pb(i);
+}
+
+vector<ll> prime_fac(ll n)
+{
+    vector<ll>factors;
+
+    for(ll i=0;prime_list[i]*prime_list[i]<=n&&i<prime_list.size();i++)
+    {
+        if(n%prime_list[i]==0)
+        {
+            while(n%prime_list[i]==0)
+            {
+                n/=prime_list[i];
+                factors.pb(prime_list[i]);
+            }
+        }
+    }
+
+    if(n>1)
+        factors.pb(n);
+
+
+   return factors;
+}
+
+//ncr
+
+ 
+ll fak[mxN];
+ 
+ 
+ll bigmod(ll a,ll b)
+{
+    ll ans=1;
+    while(b>0)
+    {
+        if(b&1)
+            ans=((ans%MOD)*(a%MOD))%MOD;
+        b=b>>1;
+        a=((a%MOD)*(a%MOD))%MOD;
+ 
+    }
+ 
+    return ans;
+}
+ 
+ll mul_in(ll a,ll p)
+{
+    ll ans=bigmod(a,p-2);
+    return ans;
+}
+ 
+ 
+ll mult(ll a,ll b)
+{
+    ll ans=((a%MOD)*(b%MOD))%MOD;
+ 
+    if(ans<0)
+        ans+=MOD;
+ 
+    return ans;
+}
+ 
+ 
+ll add(ll a,ll b)
+{
+    ll ans;
+ 
+    ans=((a%MOD)+(b%MOD))%MOD;
+ 
+    if(ans<0)
+        ans+=MOD;
+    return ans;
+}
+ 
+void pre_dot_dot()
+{
+    fak[0]=1;
+ 
+    for(ll i=1;i<mxN;i++)
+    {
+        fak[i]=((fak[i-1]%MOD)*(i%MOD))%MOD;
+    }
+}
+ 
+ll ncr(ll n,ll r)
+{
+    ll ans;
+ 
+    if(n<r)
+        return 0;
+    if(r==0)
+        return 1;
+    ans=fak[n]%MOD;
+    ans*=mul_in(fak[n-r],MOD);
+    ans%=MOD;
+    ans*=mul_in(fak[r],MOD);
+    ans%=MOD;
+    return ans;
+ 
+}
+
+//log
+
+
+ll logx(ll num,ll base)
+{
+    ll i,j,k;
+    ll cnt=-1;
+
+    while(num>0)
+    {
+        num/=base;
+        cnt++;
+    }
+
+    return cnt;
+}

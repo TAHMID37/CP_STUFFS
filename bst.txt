@@ -1,0 +1,367 @@
+/*  TAHMID RAHMAN
+    DAMIAN FOREVER
+     MATH LOVER
+    NEVER GIVE UP
+*/
+#include<bits/stdc++.h>
+using namespace std;
+#define pi acos(-1.0)
+#define fastio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
+#define ll long long
+#define pb push_back
+#define fi first
+#define se second
+#define in insert
+#define mp make_pair
+#define GCD(a,b) __gcd(a,b);
+#define endl "\n"
+#define FRU freopen("out.txt","w",stdout)
+#define FRO freopen("in.txt","r",stdin)
+#define INFLL 9223372036854775807
+#define all(x) (x).begin(),(x).end()
+#define debug 0
+#define MAXN   100001
+#define ar array
+#define lb lower_bound
+#define ub upper_bound
+#define minpq priority_queue<ll, vector<ll>, greater<ll>>
+#define maxpq priority_queue<ll>
+const int mxN=2e5;
+const int MOD=1e9+7;
+template<typename ForwardIterator, typename T>
+ForwardIterator first_less_than (ForwardIterator first, ForwardIterator last, T value)
+{auto it = std::lower_bound (first, last, value);
+return (it == first ? last : --it);}
+bool sortbysec(const pair<int,int> &a,const pair<int,int> &b)
+{
+    return (a.second < b.second);
+}
+#define debugxx(v) {for(auto x:v){cout<<x.fi<<" "<<x.se<<endl;}cout<<endl;}
+#define debugx(v){for(auto y:v) {cout<<y<<" ";}cout<<endl;}
+//Don't hesitate to ask me if you don't understand my code.......Happy coding,Tahmid...;
+
+struct bst {
+
+    ll data;
+    ll left_subtree_size;
+    ll right_subtree_size;
+    struct bst* left;
+    struct bst* right;
+    struct bst* parent;
+
+
+};
+
+struct bst* root=NULL;
+
+void insert_bst(ll x)
+{
+    struct bst*temp=new bst();
+
+    temp->data=x;
+    temp->left=NULL;
+    temp->right=NULL;
+    temp->parent=NULL;
+    temp->left_subtree_size=temp->right_subtree_size=0;
+
+
+    if(root==NULL)
+    {
+        root=temp;
+        return;
+    }
+
+    struct bst * cur=root;
+
+    while(1)
+    {
+        if(x>=cur->data)
+        {
+            cur->right_subtree_size++;
+
+            if((cur->right)==NULL)
+            {
+                cur->right=temp;
+                temp->parent=cur;
+                return ;
+
+            }
+            else
+                cur=cur->right;
+        }
+        else if(x<cur->data)
+        {
+            cur->left_subtree_size++;
+
+            if((cur->left)==NULL)
+            {
+                cur->left=temp;
+                temp->parent=cur;
+                return ;
+
+            }
+            else
+                cur=cur->left;
+        }
+    }
+
+
+}
+
+
+bool search(bst *root,int data)
+{
+    if(root==NULL)
+        return false;
+    else if(root->data==data)
+        return true;
+    else if(root->data >data)
+        return search(root->left,data);
+    else
+        return search(root->right,data);
+}
+
+
+void inorder(bst *root)
+{
+
+    if(!root)
+        return ;
+
+    inorder(root->left);
+    cout<<root->data<<" ";
+    inorder(root->right);
+}
+
+
+
+void preorder(bst *root)
+{
+
+    if(!root)
+        return ;
+
+    cout<<root->data<<" ";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+
+void postorder(bst *root)
+{
+
+    if(!root)
+        return ;
+
+    postorder(root->left);
+    postorder(root->right);
+    cout<<root->data<<" ";
+
+}
+
+
+int tree_max(bst *root)
+{
+    while(root->right!=NULL)
+        root=root->right;
+
+    return root->data;
+}
+
+
+
+int tree_min(bst *root)
+{
+    while(root->left!=NULL)
+        root=root->left;
+
+    return root->data;
+}
+
+int find_height(bst * root)
+{
+    if(root==NULL)
+        return -1;
+
+
+
+    ll x1=find_height(root->left);
+
+    ll x2=find_height(root->right);
+
+
+    return(max(x1,x2)+1);
+}
+
+
+ll min_depth(bst * root)
+{
+
+    if(root==NULL)
+        return 0;
+    queue<bst*>q;
+
+    ll level=0;
+
+    q.push(root);
+
+
+    while(q.size())
+    {
+        level++;
+
+        ll x=q.size();
+
+        for(ll i=0;i<x;i++)
+        {
+           bst* cur=q.front();
+
+           q.pop();
+
+           if(cur->left==NULL&&cur->right==NULL)
+             return level;
+
+           if(cur->left!=NULL)
+             q.push(cur->left);
+           if(cur->right!=NULL)
+             q.push(cur->right);
+        }
+
+
+    }
+
+}
+
+struct bst* find_node(ll x)
+{
+    struct bst* cur=root;
+
+    while(1)
+    {
+        if(cur==NULL)
+            break;
+
+        if(x==cur->data)
+            return cur;
+        if(x>cur->data)
+                cur=cur->right;
+        else if(x<cur->data)
+                cur=cur->left;
+    }
+
+    return NULL;
+
+};
+
+
+void print_ancestor(ll x)
+{
+    struct bst* cur=find_node(x);
+
+    if(x==NULL)
+        return;
+
+    while(1)
+    {
+        cout<<cur->data<<" ";
+        if(cur->parent==NULL)
+            return;
+        cur=cur->parent;
+    }
+
+}
+
+
+
+ll count_all_smaller_node(ll x)
+{
+    ll c=0;
+
+    struct bst* temp=find_node(x); //log(height)
+
+    if(temp==NULL) //if node not found;
+        return c;
+
+    c+=temp->left_subtree_size;
+
+    temp=temp->parent;
+
+    if(temp==NULL)
+        return c;
+
+    while(1)
+    {
+         if(x>temp->data)
+            c+=(temp->left_subtree_size+1);  // +1 for the parent node!
+
+         temp=temp->parent;                  //log(height)
+
+         if(temp==NULL)
+             return c;
+    }
+
+}
+
+
+
+
+
+
+int main()
+{
+    insert_bst(50);
+
+    insert_bst(70);
+
+    insert_bst(80);
+
+    insert_bst(75);
+
+    insert_bst(85);
+
+    insert_bst(40);
+
+    insert_bst(45);
+
+
+
+    cout<<search(root,40)<<endl;
+
+    cout<<"inorder: ";
+    inorder(root);
+
+    cout<<endl;
+
+    cout<<"preorder: ";
+
+    preorder(root);
+
+    cout<<endl;
+
+    cout<<"Postorder: ";
+
+    postorder(root);
+
+    cout<<endl;
+
+
+    cout<<tree_max(root)<<endl;
+
+    cout<<tree_min(root)<<endl;
+
+    cout<<find_height(root)<<endl;
+
+
+    cout<<count_all_smaller_node(70)<<endl;
+
+
+    cout<<min_depth(root)<<endl;
+
+
+
+
+}
+
+
+
+

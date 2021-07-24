@@ -1,0 +1,64 @@
+
+string bin(ll x)
+{
+    // gives binary of a number
+
+    string s;
+
+    if(x==0)
+    {
+        s+='0';
+        return s;
+    }
+
+    ll len=log2(x)+1;
+
+    for(ll i=len-1;i>=0;i--)
+    {
+        if((x&(1LL<<i)))
+            s+='1';
+        else
+            s+='0';
+    }
+
+    return s;
+}
+
+void gen_subset(vector<ll> &v)
+{
+
+    //generate subset
+
+    ll n=v.size();
+
+    ll i,j;
+
+    for(i=0;i<(1<<n);i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            if((i&(1<<j)))
+                cout<<1;
+            else
+                cout<<0;
+        }
+        cout<<endl;
+    }
+}
+
+ll pows(string s)
+{
+    // gets a binary string and returns its value in decimal
+    //works upto 1e9
+
+    ll ans=0;
+    ll c=0;
+    for(ll i=s.size()-1;i>=0;i--)
+    {
+        if(s[i]=='1')
+            ans+=(1<<c);
+        c++;
+    }
+
+    return ans;
+}

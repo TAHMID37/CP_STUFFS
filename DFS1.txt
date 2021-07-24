@@ -1,0 +1,20 @@
+
+vector<ll>v[110];
+bool vis[110]={0};
+
+void dfs(ll at)
+{
+    if(vis[at])
+         return ;
+
+    cout<<at<<" ";
+    vis[at]=true;
+
+
+    for(auto next:v[at])
+    {
+        dfs(next);
+    }
+
+
+}
