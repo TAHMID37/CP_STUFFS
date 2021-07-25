@@ -19,7 +19,6 @@ using namespace std;
 #define FRO freopen("in.txt","r",stdin)
 #define INFLL 9223372036854775807
 #define all(x) (x).begin(),(x).end()
-#define debug 0
 #define MAXN   100001
 #define ar array
 #define lb lower_bound
