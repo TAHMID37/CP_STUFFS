@@ -1,0 +1,40 @@
+//dsu
+
+ll par[mxN];
+
+void make(ll n)
+{
+    ll i,j;
+
+    for(i=1;i<=n;i++)
+        par[i]=i;
+}
+
+ll find_par(ll r)
+{
+    if(par[r]==r)
+        return r;
+    return par[r]=find_par(par[r]);
+}
+
+
+void unions(ll a,ll b)
+{
+    ll u=find_par(a);
+    ll v=find_par(b);
+
+    if(u!=v)
+      par[u]=v;
+
+}
+
+bool check(ll a, ll b)
+{
+    ll u=find_par(a);
+    ll v=find_par(b);
+
+    if(u==v)
+        return true;
+
+    return false;
+}
