@@ -1,0 +1,137 @@
+/*  TAHMID RAHMAN
+    DAMIAN FOREVER
+     MATH LOVER
+    NEVER GIVE UP
+*/
+#include<bits/stdc++.h>
+using namespace std;
+#define pi acos(-1.0)
+#define fastio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
+#define ll long long
+#define pb push_back
+#define fi first
+#define se second
+#define in insert
+#define mp make_pair
+#define GCD(a,b) __gcd(a,b);
+#define endl "\n"
+#define FRU freopen("out.txt","w",stdout)
+#define FRO freopen("in.txt","r",stdin)
+#define INFLL 9223372036854775807
+#define all(x) (x).begin(),(x).end()
+#define MAXN   100001
+#define ar array
+#define lb lower_bound
+#define ub upper_bound
+#define minpq priority_queue<ll, vector<ll>, greater<ll>>
+#define maxpq priority_queue<ll>
+const int mxN=2e5;
+const int MOD=1e9+7;
+template<typename ForwardIterator, typename T>
+ForwardIterator first_less_than (ForwardIterator first, ForwardIterator last, T value)
+{auto it = std::lower_bound (first, last, value);
+return (it == first ? last : --it);}
+bool sortbysec(const pair<ll,ll> &a,const pair<ll,ll> &b)
+{
+    return (a.second < b.second);
+}
+#define debugxx(v) {for(auto x:v){cout<<x.fi<<" "<<x.se<<endl;}cout<<endl;}
+#define debugx(v){for(auto y:v) {cout<<y<<" ";}cout<<endl;}
+#define debug(x) cout<<#x<<" ";_print(x); cout<<endl;
+typedef unsigned long long ull;
+typedef long double lld;
+void _print(ll t) {cout << t;}
+void _print(int t) {cout << t;}
+void _print(string t) {cout << t;}
+void _print(char t) {cout << t;}
+void _print(lld t) {cout << t;}
+void _print(double t) {cout << t;}
+void _print(ull t) {cout << t;}
+
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cout << "{"; _print(p.fi); cout << ","; _print(p.se); cout << "}";}
+template <class T> void _print(vector <T> v) {cout << "[ "; for (T i : v) {_print(i); cout << " ";} cout << "]";}
+template <class T> void _print(set <T> v) {cout << "[ "; for (T i : v) {_print(i); cout << " ";} cout << "]";}
+template <class T> void _print(multiset <T> v) {cout << "[ "; for (T i : v) {_print(i); cout << " ";} cout << "]";}
+template <class T, class V> void _print(map <T, V> v) {cout << "[ "; for (auto i : v) {_print(i); cout << " ";} cout << "]";}
+//Don't hesitate to ask me if you don't understand my code.......Happy coding,Tahmid...;
+
+vector<ll>adj[mxN];
+vector<ll>cost[mxN];
+ll dis[mxN];
+
+void dijkstra(ll s)
+{
+    priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>>pq;
+    for(ll i=0;i<mxN;i++)
+        dis[i]=INFLL;
+    dis[s]=0;
+
+    pq.push({dis[s],s});
+
+    while(pq.size())
+    {
+        pair<ll,ll>top=pq.top();
+        ll d=top.fi;
+        ll node=top.se;
+        pq.pop();
+
+        for(ll i=0;i<adj[node].size();i++)
+        {
+            if(dis[node]+cost[node][i]<dis[adj[node][i]])
+            {
+
+                dis[adj[node][i]]=dis[node]+cost[node][i];
+                pq.push({dis[adj[node][i]],adj[node][i]});
+
+            }
+        }
+
+    }
+
+
+}
+
+void add(ll a, ll b,ll c)
+{
+    adj[a].pb(b);
+    adj[b].pb(a);
+    cost[a].pb(c);
+    cost[b].pb(c);
+}
+
+int main()
+{
+    fastio;
+
+    add(0,1,4);
+    add(0,7,8);
+    add(1,2,8);
+    add(1,7,11);
+    add(2,3,7);
+    add(2,8,2);
+    add(2,5,4);
+    add(3,4,9);
+    add(3,5,14);
+    add(4,5,10);
+    add(5,6,2);
+    add(6,7,1);
+    add(6,8,6);
+    add(7,8,7);
+
+    dijkstra(0);
+
+
+    for(ll i=0;i<=8;i++)
+    {
+        cout<<i<<" "<<dis[i]<<endl;
+    }
+
+}
+
+
+
